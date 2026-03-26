@@ -3,46 +3,49 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AR Menu - Mobile Fix</title>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>AR Menu - Fixed</title>
+    
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@v1.3.0/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@master/aframe/build/aframe-ar.js"></script>
     
     <style>
-        body { margin: 0; overflow: hidden; font-family: sans-serif; }
-        /* The Start Button - Necessary for Mobile Permissions */
-        #start-button {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 15px 30px; background: #ff4757;
-            color: white; border: none; border-radius: 50px;
-            font-size: 18px; font-weight: bold; z-index: 999;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        body { margin: 0; overflow: hidden; background: #000; }
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 999; display: flex; 
+            flex-direction: column; justify-content: center; align-items: center;
         }
-        .hidden { display: none !important; }
+        button {
+            padding: 20px 40px; font-size: 20px; background: #007bff;
+            color: white; border: none; border-radius: 10px; cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    <button id="start-button">Tap to Open Menu</button>
+    <div id="loading-screen">
+        <button onclick="startAR()">START AR MENU</button>
+        <p style="margin-top: 15px; color: #666;">Allow camera access when prompted</p>
+    </div>
 
     <a-scene 
         embedded 
         vr-mode-ui="enabled: false"
         arjs="sourceType: webcam; debugUIEnabled: false; facingMode: environment;"
-        renderer="antialias: true; alpha: true; precision: medium;">
+        renderer="logarithmicDepthBuffer: true;">
         
         <a-assets>
-            <a-asset-item id="food" src="menu.glb"></a-asset-item>
+            <a-asset-item id="food-model" src="menu.glb"></a-asset-item>
         </a-assets>
 
         <a-marker preset="hiro">
-            <a-box position="0 0.5 0" material="color: red; opacity: 0.5;" scale="0.2 0.2 0.2"></a-box>
+            <a-cylinder position="0 0.1 0" radius="0.2" height="0.2" color="#FFC107" opacity="0.5"></a-cylinder>
             
             <a-entity
-                gltf-model="#food"
-                scale="1 1 1"
+                gltf-model="#food-model"
+                scale="0.5 0.5 0.5"
                 position="0 0 0"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+                rotation="0 0 0">
             </a-entity>
         </a-marker>
 
@@ -50,25 +53,15 @@
     </a-scene>
 
     <script>
-        // This script handles the mobile "Start" gesture
-        const btn = document.querySelector('#start-button');
-        const scene = document.querySelector('a-scene');
-
-        btn.addEventListener('click', () => {
-            // Hide the button and let the scene start
-            btn.classList.add('hidden');
-            
-            // Check if scene is already loaded, otherwise wait
-            if (scene.hasLoaded) {
-                runAR();
-            } else {
-                scene.addEventListener('loaded', runAR);
-            }
-        });
-
-        function runAR() {
-            console.log("AR Scene Starting...");
+        function startAR() {
+            document.getElementById('loading-screen').style.display = 'none';
         }
+        
+        // Error logging for your model
+        document.querySelector('#food-model').addEventListener('model-error', (e) => {
+            console.error("Model failed to load:", e);
+            alert("Model file 'menu.glb' not found. Check your GitHub file list!");
+        });
     </script>
 </body>
 </html>
