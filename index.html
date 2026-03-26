@@ -1,61 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Logo</title>
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
-  <style>
-    .arjs-loader {
-      position: fixed;
-      z-index: 999;
-      top: 0; left: 0; width: 100%; height: 100%;
-      display: flex; justify-content: center; align-items: center;
-      background: rgba(0,0,0,0.8);
-      color: white;
-    }
-  </style>
-</head>
-<body style='margin: 0; overflow: hidden;'>
-  <div class="arjs-loader">
-    <div style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-      Loading, please wait...
-    </div>
-  </div>
-
-  <a-scene 
-    embedded 
-    arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
-    gesture-detector
-    renderer="logarithmicDepthBuffer: true;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hassan's AR Menu</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     
-    <a-assets>
-      <a-asset-item id="pizza" src="pizza.gltf"></a-asset-item>
-    </a-assets>
+    <style>
+        body { margin: 0; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            background-color: #eee;
+        }
+        /* Style for the 'View in AR' button */
+        #ar-button {
+            background-color: #ffffff; border-radius: 4px; border: none;
+            position: absolute; bottom: 16px; right: 16px;
+            padding: 10px 20px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+        }
+    </style>
+</head>
 
-    <!-- Barcode marker value: 0-63 for 3x3 codes -->
-    <a-marker 
-      id="animated-marker" 
-      type="barcode" 
-      value="5"
-      raycaster="objects: .clickable"
-      emitevents="true"
-      cursor="fuse: false; rayOrigin: mouse;"
-      smooth="true">
-      
-      <a-entity
-        gltf-model="#pizza"
-        scale="35 35 35"
-        position="0 0 0"
-        rotation="0 0 0"
-        class="clickable"
-        gesture-handler="minScale: 0.25; maxScale: 10">
-      </a-entity>
-    </a-marker>
+<body>
+    <model-viewer 
+        src="menu.glb" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        poster="poster.webp" 
+        shadow-intensity="1" 
+        auto-rotate>
+        
+        <button slot="ar-button" id="ar-button">
+            👋 View in your space
+        </button>
 
-    <a-entity camera></a-entity>
-  </a-scene>
+    </model-viewer>
 </body>
 </html>
