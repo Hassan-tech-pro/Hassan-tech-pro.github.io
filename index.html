@@ -29,11 +29,19 @@
     ar 
     ar-modes="webxr scene-viewer quick-look" 
     camera-controls 
-    shadow-intensity="1" 
+    shadow-intensity="1.5"
+    shadow-softness="1"
+    
+    environment-image="neutral" 
+    
+    tone-mapping="neutral" 
+    
+    exposure="1.2"
+    
     auto-rotate>
     
-    <button slot="ar-button" style="background-color: white; border-radius: 8px; border: 1px solid #ccc; position: absolute; top: 16px; right: 16px; padding: 12px;">
-      🍕 PLACE PIZZA ON TABLE
+    <button slot="ar-button" style="background-color: white; border-radius: 8px; border: 1px solid #ccc; position: absolute; top: 16px; right: 16px; padding: 12px; font-weight: bold;">
+        🍕 PLACE PIZZA ON TABLE
     </button>
 </model-viewer>
 </body>
