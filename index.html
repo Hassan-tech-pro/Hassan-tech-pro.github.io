@@ -24,24 +24,40 @@
 </head>
 
 <body>
-  <model-viewer 
-    src="pizza3.glb" 
-    ar 
-    ar-modes="webxr scene-viewer quick-look" 
-    camera-controls 
+  <style>
+    /* Make the button look like a professional app "Start" screen */
+    #custom-ar-button {
+        position: absolute;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.8) url('your-logo.png') no-repeat center 30%;
+        background-size: 150px;
+        color: white;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        font-family: sans-serif;
+    }
+    .start-text { font-size: 24px; font-weight: bold; margin-top: 200px; }
+    .sub-text { color: #ccc; margin-top: 10px; }
+</style>
+
+<model-viewer 
+    src="pizza1.glb" 
+    ar ar-modes="webxr scene-viewer quick-look" 
+    ar-scale="fixed" 
+    ar-placement="floor"
+    auto-rotate 
+    rotation-per-second="30deg"
     shadow-intensity="1.5"
     shadow-softness="1"
+    environment-image="neutral">
     
-    environment-image="neutral" 
-    
-    tone-mapping="neutral" 
-    
-    exposure="1.2"
-    
-    auto-rotate>
-    
-    <button slot="ar-button" style="background-color: white; border-radius: 8px; border: 1px solid #ccc; position: absolute; top: 16px; right: 16px; padding: 12px; font-weight: bold;">
-        🍕 PLACE PIZZA ON TABLE
+    <button slot="ar-button" id="custom-ar-button">
+        <div class="start-text">🚀 OPEN AR MENU</div>
+        <div class="sub-text">Tap to view pizza on your table</div>
     </button>
 </model-viewer>
 </body>
